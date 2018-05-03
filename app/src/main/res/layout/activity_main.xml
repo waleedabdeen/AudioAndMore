@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.waleed.audioandmore.MainActivity">
 
+    <Button
+        android:id="@+id/btnRecordActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record Activity"
+        tools:layout_editor_absoluteX="126dp"
+        tools:layout_editor_absoluteY="16dp" />
 </android.support.constraint.ConstraintLayout>
