@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,14 +21,13 @@ import java.util.ArrayList;
 
 public class RecordActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = "AudioRecordTest";
+    private static final String LOG_TAG = "Recording";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static String mFileName = null;
 
     private Button mRecordButton = null;
     private MediaRecorder mRecorder = null;
 
-    private PlayButton   mPlayButton = null;
     private MediaPlayer mPlayer = null;
 
     //Recording status
@@ -37,7 +35,6 @@ public class RecordActivity extends AppCompatActivity {
 
     //Recording directory
     String path ;
-
 
     // Requesting permission to RECORD_AUDIO
     private boolean permissionToRecordAccepted = false;
@@ -114,15 +111,12 @@ public class RecordActivity extends AppCompatActivity {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
-        listRecordedFiles();
+        getRecordedFilesList();
         updateRecordingFileName();
-//        mAdapter.notifyItemChanged(0);
         mAdapter.notifyItemInserted(0);
-//        mAdapter.notifyDataSetChanged();
     }
 
-    private void listRecordedFiles(){
-//        mFileName = getExternalCacheDir().getAbsolutePath();
+    private void getRecordedFilesList(){
 
         Log.d("Files", "Path: " + path);
         File directory = new File(path);
@@ -131,111 +125,36 @@ public class RecordActivity extends AppCompatActivity {
         recordedFilesList.clear();
         for (int i = 0; i < files.length; i++)
         {
-
             recordedFilesList.add(0 ,files[i].getName());
-//            if(recordedFilesList.size() == 0 ){
-//                recordedFilesList.add(recordedFilesList.size() ,files[i].getName());
-//            }else {
-//                recordedFilesList.add(recordedFilesList.size()  ,files[i].getName());
-//            }
-
             Log.d("Files", "FileName:" + files[i].getName());
         }
     }
-    class RecordButton extends Button {
-        boolean mStartRecording = true;
-
-        OnClickListener clicker = new OnClickListener() {
-            public void onClick(View v) {
-                onRecord(mStartRecording);
-                if (mStartRecording) {
-                    setText("Stop recording");
-                } else {
-                    setText("Start recording");
-                }
-                mStartRecording = !mStartRecording;
-            }
-        };
-
-        public RecordButton(Context ctx) {
-            super(ctx);
-            setText("Start recording");
-            setOnClickListener(clicker);
-        }
-    }
-
-    class PlayButton extends Button {
-        boolean mStartPlaying = true;
-
-        OnClickListener clicker = new OnClickListener() {
-            public void onClick(View v) {
-                onPlay(mStartPlaying);
-                if (mStartPlaying) {
-                    setText("Stop playing");
-                } else {
-                    setText("Start playing");
-                }
-                mStartPlaying = !mStartPlaying;
-            }
-        };
-
-        public PlayButton(Context ctx) {
-            super(ctx);
-            setText("Start playing");
-            setOnClickListener(clicker);
-        }
-    }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_record);
+        setContentView(R.layout.activity_record);
 
         recordedFilesList = new ArrayList<>();
         path = getExternalCacheDir().getAbsolutePath();
-        // Record to the external cache directory for visibility
-//        mFileName = getExternalCacheDir().getAbsolutePath();
-//        mFileName += "/" + (lastLabelUsed + 1) +".3gp" ;
-
+        getRecordedFilesList();
+        updateRecordingFileName();
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
-        LinearLayout ll = new LinearLayout(this);
-//        mRecordButton = new RecordButton(this);
-//        ll.addView(mRecordButton,
-//                new LinearLayout.LayoutParams(
-//                        ViewGroup.LayoutParams.WRAP_CONTENT,
-//                        ViewGroup.LayoutParams.WRAP_CONTENT,
-//                        0));
-//        mPlayButton = new PlayButton(this);
-//        ll.addView(mPlayButton,
-//                new LinearLayout.LayoutParams(
-//                        ViewGroup.LayoutParams.WRAP_CONTENT,
-//                        ViewGroup.LayoutParams.WRAP_CONTENT,
-//                        0));
-        setContentView(R.layout.activity_record);
-
-
         // prepare the recyclerview
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-        listRecordedFiles();
-        updateRecordingFileName();
+        // specify an adapter
         mAdapter = new RecordingAdapter(path, recordedFilesList);
         mRecyclerView.setAdapter(mAdapter);
 
-        //Define buttons
+        //Define Recording Button
         mRecordButton = findViewById(R.id.btnRecord);
         mRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,7 +168,6 @@ public class RecordActivity extends AppCompatActivity {
                 }
             }
         });
-
 
     }
 
