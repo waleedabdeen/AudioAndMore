@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by Waleed on 02/05/2018.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.ViewHolder> {
     //Main attributes
     private ArrayList<String> mDataset;
     private String mPath;
@@ -31,15 +31,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public Button mButton;
-        public ViewHolder(Button v) {
+        Button mButton;
+        TextView mText;
+        public ViewHolder(View v) {
             super(v);
-            mButton = v;
+            mButton = v.findViewById(R.id.btnPlay);
+            mText = v.findViewById(R.id.txtName);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(String myPath, ArrayList<String> myDataset) {
+    public RecordingAdapter(String myPath, ArrayList<String> myDataset) {
         mDataset = myDataset;
         mPath = myPath;
 //        setHasStableIds(true);
@@ -47,12 +49,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public RecordingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                          int viewType) {
         // create a new view
-        Button v = (Button) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_text_view, parent, false);
-
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_recording_row,parent,false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -62,16 +62,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mButton.setText(mDataset.get(position));
+
+        holder.mText.setText(mDataset.get(position));
+        holder.mButton.setText("Play");
+
         holder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isPlaying = !isPlaying;
                 onPlay(isPlaying , mPath + "/" + mDataset.get(position));
                 if (isPlaying) {
-                    holder.mButton.setText("Playing - " + mDataset.get(position));
+                    holder.mButton.setText("Stop");
                 } else {
-                    holder.mButton.setText(mDataset.get(position));
+                    holder.mButton.setText("Play");
                 }
             }
         });

@@ -13,4 +13,23 @@
         android:text="Record Activity"
         tools:layout_editor_absoluteX="126dp"
         tools:layout_editor_absoluteY="16dp" />
+
+    <Button
+        android:id="@+id/btnWebSocket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
+        android:text="Web Socket"
+        app:layout_constraintStart_toStartOf="@+id/btnRecordActivity"
+        app:layout_constraintTop_toBottomOf="@+id/btnRecordActivity" />
+
+    <TextView
+        android:id="@+id/txtOutput"
+        android:text="Nothing to show..."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnWebSocket"
+        tools:layout_editor_absoluteX="0dp" />
 </android.support.constraint.ConstraintLayout>
