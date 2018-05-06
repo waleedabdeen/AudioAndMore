@@ -100,13 +100,14 @@
                         android:id="@+id/volume"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
-                        android:text="volume" />
+                        android:textSize="15dp"
+                        android:text="Volume" />
 
                     <SeekBar
                         android:id="@+id/volumeBar"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"/>
 
                     </LinearLayout>
 
