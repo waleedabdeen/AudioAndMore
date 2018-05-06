@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.HashSet;
 
@@ -51,8 +52,9 @@ public class UPnPDiscovery extends AsyncTask
                                 //"ST: ssdp:all\r\n"+  // Use this for all UPnP Devices
                                 "\r\n";
 
-                socket = new DatagramSocket(port);
+                socket = new DatagramSocket(null);
                 socket.setReuseAddress(true);
+                socket.bind(new InetSocketAddress(port));
 
                 DatagramPacket dgram = new DatagramPacket(query.getBytes(), query.length(),
                         group, port);
