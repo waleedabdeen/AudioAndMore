@@ -52,22 +52,29 @@
 
                 <ImageButton
                     android:id="@+id/imageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp"
-                    android:src="@android:drawable/stat_sys_warning" />
+                    android:background="@color/colorWhite"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/warning_yellow" />
+
+                <ImageButton
+                    android:background="@color/colorWhite"
+                    android:id="@+id/id1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/correct_green" />
 
                 <ImageButton
                     android:id="@+id/sendAgain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@android:drawable/ic_menu_send" />
 
                 <ImageButton
                     android:id="@+id/playbutton"
                     style="@android:style/Widget.DeviceDefault.Light.ImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@android:drawable/ic_media_play" />
             </LinearLayout>
 
