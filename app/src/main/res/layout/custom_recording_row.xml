@@ -1,22 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView"
-        android:textSize="16sp"/>
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/btnPlay"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="right"
-        android:text="Play" />
+        <LinearLayout
+            tools:layout_editor_absoluteY="8dp"
+            android:layout_width="380"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/Filename"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="File Name" />
+
+            <TextView
+                android:id="@+id/speaker"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="speakers" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@android:drawable/stat_sys_warning" />
+
+                <ImageButton
+                    android:id="@+id/sendAgain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_menu_send" />
+
+                <ImageButton
+                    android:id="@+id/playbutton"
+                    style="@android:style/Widget.DeviceDefault.Light.ImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_media_play" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 
 </LinearLayout>
