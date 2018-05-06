@@ -17,10 +17,11 @@
 
         <LinearLayout
             tools:layout_editor_absoluteY="8dp"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/Filename"
@@ -42,26 +43,28 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <ImageButton
                     android:id="@+id/imageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:srcCompat="@android:drawable/stat_sys_warning" />
+                    android:src="@android:drawable/stat_sys_warning" />
 
                 <ImageButton
                     android:id="@+id/sendAgain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:src="@android:drawable/ic_menu_send" />
 
                 <ImageButton
                     android:id="@+id/playbutton"
                     style="@android:style/Widget.DeviceDefault.Light.ImageButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_media_play" />
             </LinearLayout>
 
