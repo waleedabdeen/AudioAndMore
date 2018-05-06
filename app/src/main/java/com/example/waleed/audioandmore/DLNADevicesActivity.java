@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +16,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.WebSocketListener;
+import okio.ByteString;
 
 public class DLNADevicesActivity extends AppCompatActivity {
     Button btnDiscoverDLNA;
@@ -26,7 +35,7 @@ public class DLNADevicesActivity extends AppCompatActivity {
     Activity thisActivity = DLNADevicesActivity.this;
 
     private String[] devicesArray;
-    private ArrayList<String> devicesList = new ArrayList<>();
+    private ArrayList<Device> devicesList = new ArrayList<>();
 
     private boolean permissionToWIFI = false;
     private String [] permissions = {Manifest.permission.CHANGE_WIFI_MULTICAST_STATE,Manifest.permission.ACCESS_WIFI_STATE};
@@ -39,14 +48,18 @@ public class DLNADevicesActivity extends AppCompatActivity {
     private RecyclerView reViewDevices;
     private static RecyclerView.Adapter devicesAdapter;
     private RecyclerView.LayoutManager devicesLayoutManager;
+    private Button btnRefresh;
+
+    private Device weeds;
+
+    String LOG_TAG = "WebSocketClass";
+    OkHttpClient client;
+    String hostURL = "ws://192.168.137.124:54480/sony/audio";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dlnadevices);
-
-//        ActivityCompat.requestPermissions(this, permissions, REQUEST_WIFI_PERMISSION);
-//        ActivityCompat.requestPermissions(this, permissions, REQUEST_CHANGE_MULTICAST_WIFI);
 
         checkThePermissionFirst();
         // prepare the recyclerview
@@ -61,10 +74,7 @@ public class DLNADevicesActivity extends AppCompatActivity {
         devicesAdapter = new DevicesAdapter(devicesList);
         reViewDevices.setAdapter(devicesAdapter);
 
-
         btnDiscoverDLNA = findViewById(R.id.btnDiscoverDLNA);
-//        txtDiscoveredDevices = findViewById(R.id.);
-
         btnDiscoverDLNA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +85,7 @@ public class DLNADevicesActivity extends AppCompatActivity {
                 DLNAClass dlnaScan = new DLNAClass(getApplicationContext());
                 String result = dlnaScan.Discover();
                 Log.e("DLNA Discover" , result);
-                devicesList.add(result);
+//                devicesList.add(result);
 //                for(int i = 0; i< devicesArray.length; i++){
 //                    devicesList.add(devicesArray[i]);
 //                    Log.e("DLNA", devicesArray[i]);
@@ -83,24 +93,25 @@ public class DLNADevicesActivity extends AppCompatActivity {
 //                }
             }
         });
+        client = new OkHttpClient();
+        start();
 
+        btnRefresh = findViewById(R.id.refreshBtn);
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start();
+            }
+        });
+        weeds = new Device();
+        weeds.setLabel("ZR5-Weeds");
+        weeds.setMaxVolume(50);
+        weeds.setMinVolume(0);
+//        weeds.setVolume(10);
+
+        devicesList.add(weeds);
 
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        switch (requestCode){
-//            case REQUEST_WIFI_PERMISSION:
-//                permissionToWIFI  = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-//                break;
-//            case REQUEST_CHANGE_MULTICAST_WIFI:
-//                permissionToWIFI  = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-//                break;
-//        }
-//        if (!permissionToWIFI ) finish();
-//
-//    }
 
     public void checkThePermissionFirst(){
         // Here, thisActivity is the current activity
@@ -120,10 +131,6 @@ public class DLNADevicesActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(thisActivity,
                         new String[]{Manifest.permission.ACCESS_WIFI_STATE},
                         REQUEST_WIFI_PERMISSION);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
             // Permission has already been granted
@@ -146,10 +153,6 @@ public class DLNADevicesActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(thisActivity,
                         new String[]{Manifest.permission.CHANGE_WIFI_MULTICAST_STATE},
                         REQUEST_CHANGE_MULTICAST_WIFI);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
             // Permission has already been granted
@@ -172,10 +175,6 @@ public class DLNADevicesActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(thisActivity,
                         new String[]{Manifest.permission.INTERNET},
                         REQUEST_INTERNET);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
             // Permission has already been granted
@@ -249,6 +248,134 @@ public class DLNADevicesActivity extends AppCompatActivity {
 //        }
 //    }
 
+    public final class EchoWebSocketListener extends WebSocketListener {
+        private static final int NORMAL_CLOSURE_STATUS = 1000;
+        private TextView output;
+        @Override
+        public void onOpen(okhttp3.WebSocket webSocket, Response response) {
 
+            JSONObject requestObject = new JSONObject();
+            JSONArray params = new JSONArray();
+
+            try {
+                requestObject.put("method", "getPowerStatus");
+                requestObject.put("id", "50");
+                requestObject.put("version", "1.1");
+                requestObject.put("params", params);
+
+            }catch (JSONException jsonException){
+                Log.e(LOG_TAG,jsonException.toString());
+            }
+
+            String getInfo = "{\n" +
+                    " \"method\":\"getPowerStatus\",\n" +
+                    " \"id\":50,\n" +
+                    " \"params\":[],\n" +
+                    " \"version\":\"1.1\"\n" +
+                    "}";
+            String getEqualizer  = "{\n" +
+                    " \"method\":\"getCustomEqualizerSettings\",\n" +
+                    " \"id\":11,\n" +
+                    " \"params\":[\n" +
+                    "  {\n" +
+                    "   \"target\":\"10000HzBandLevel\"\n" +
+                    "  }\n" +
+                    " ],\n" +
+                    " \"version\":\"1.0\"\n" +
+                    "}";
+
+            String setEqualizer = "{\n" +
+                    " \"method\":\"setCustomEqualizerSettings\",\n" +
+                    " \"id\":15,\n" +
+                    " \"params\":[\n" +
+                    "  {\n" +
+                    "   \"settings\":[\n" +
+                    "    {\n" +
+                    "     \"value\":\"10\",\n" +
+                    "     \"target\":\"10000HzBandLevel\"\n" +
+                    "    }\n" +
+                    "   ]\n" +
+                    "  }\n" +
+                    " ],\n" +
+                    " \"version\":\"1.0\"\n" +
+                    "}";
+
+            String getVolumeInformation = "{\n" +
+                    " \"method\":\"getVolumeInformation\",\n" +
+                    " \"id\":33,\n" +
+                    " \"params\":[\n" +
+                    "  {\n" +
+                    "   \"output\":\"extOutput:zone?zone=1\"\n" +
+                    "  }\n" +
+                    " ],\n" +
+                    " \"version\":\"1.1\"\n" +
+                    "}";
+
+//            webSocket.send(getEqualizer);
+//            webSocket.send(setEqualizer);
+//            webSocket.send(getEqualizer);
+            Log.e(LOG_TAG, requestObject.toString());
+//            webSocket.send("What's up ?");
+//            webSocket.send(ByteString.decodeHex("deadbeef"));
+            webSocket.send(getVolumeInformation);
+            webSocket.close(NORMAL_CLOSURE_STATUS, "Goodbye !");
+
+
+        }
+
+        @Override
+        public void onMessage(okhttp3.WebSocket webSocket, String text) {
+            output(text);
+        }
+        @Override
+        public void onMessage(okhttp3.WebSocket webSocket, ByteString bytes) {
+            output2("Receiving bytes : " + bytes.hex());
+        }
+        public void onMessage(okhttp3.WebSocket webSocket, JSONObject result){
+//            output(result);
+        }
+        @Override
+        public void onClosing(okhttp3.WebSocket webSocket, int code, String reason) {
+            webSocket.close(NORMAL_CLOSURE_STATUS, null);
+            output2("Closing : " + code + " / " + reason);
+        }
+
+        @Override
+        public void onFailure(okhttp3.WebSocket webSocket, Throwable t, Response response) {
+            output2("Error : " + t.getMessage());
+        }
+
+
+    }
+
+    private void start() {
+        Request request = new Request.Builder().url(hostURL).build();
+        EchoWebSocketListener listener = new EchoWebSocketListener();
+        okhttp3.WebSocket ws = client.newWebSocket(request, listener);
+
+        client.dispatcher().executorService().shutdown();
+    }
+
+    private void output2(String theResult){
+        Log.e("Result DLNA WebSocket", theResult);
+    }
+
+    private void output (final String theRespone){
+        try {
+            JSONObject jsonObject = new JSONObject(theRespone);
+            JSONArray result =  jsonObject.getJSONArray("result");
+            JSONArray internalResult = result.getJSONArray(0);
+            JSONObject volumeInfo = internalResult.getJSONObject(0);
+            int volumeLevel = volumeInfo.getInt("volume");
+            int minVolumeLevel = volumeInfo.getInt("minVolume");
+            int maxVolumeLevel = volumeInfo.getInt("maxVolume");
+            weeds.setMinVolume(minVolumeLevel);
+            weeds.setMaxVolume(maxVolumeLevel);
+            weeds.setVolume(volumeLevel);
+        }catch (JSONException e){
+            Log.e("WebSocketClass - Error", e.toString());
+        }
+
+    }
 
 }

@@ -1,10 +1,12 @@
 package com.example.waleed.audioandmore;
 
+import android.annotation.TargetApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
 
     //Main attributes
-    private ArrayList<String> mDataset;
+    private ArrayList<Device> mDataset;
 
     //Internally used variables
     private static final String LOG_TAG = "Device/DLNA/Adapter";
@@ -29,19 +31,21 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
         Button btnMessageToDevice;
         TextView txtDeviceLabel;
         TextView txtDeviceStatus;
+        SeekBar volumeControl;
         boolean isRecording;
         public ViewHolder(View v) {
             super(v);
             btnMessageToDevice = v.findViewById(R.id.btnMessageToDevice);
             txtDeviceLabel = v.findViewById(R.id.txtDeviceLabel);
-            txtDeviceStatus = v.findViewById(R.id.txtDeviceStatus);
+//            txtDeviceStatus = v.findViewById(R.id.txtDeviceStatus);
+            volumeControl = v.findViewById(R.id.volumeBar);
             isRecording = false;
         }
     }
 
     // Constructor
     // TODO change to arraylist of devices
-    public DevicesAdapter(ArrayList<String> myDataset) {
+    public DevicesAdapter(ArrayList<Device> myDataset) {
         mDataset = myDataset;
 
     }
@@ -58,14 +62,15 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
+    @TargetApi(26)
     public void onBindViewHolder(final DevicesAdapter.ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        holder.txtDeviceLabel.setText(mDataset.get(position));
-        holder.txtDeviceStatus.setText("Connected");
-        holder.btnMessageToDevice.setText("Record");
+        holder.txtDeviceLabel.setText(mDataset.get(position).getLabel());
+//        holder.txtDeviceStatus.setText(mDataset.get(position).getStatus());
 
+        holder.btnMessageToDevice.setText("Record");
         holder.btnMessageToDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +84,28 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
             }
         });
 
+        holder.volumeControl.setMin(mDataset.get(position).getMinVolume());
+        holder.volumeControl.setMax(mDataset.get(position).getMaxVolume());
+        holder.volumeControl.setProgress(mDataset.get(position).getVolume());
+
+        holder.volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //TODO Send new volume to speaker
+                WebSocketClass webSocketClass = new WebSocketClass("ws://192.168.137.124:54480/sony/audio","setVolume",progress);
+                webSocketClass.start();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
 

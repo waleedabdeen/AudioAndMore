@@ -115,8 +115,19 @@ public class MainActivity extends AppCompatActivity {
                     " ],\n" +
                     " \"version\":\"1.0\"\n" +
                     "}";
+            String getVolumeInformation = "{\n" +
+                    " \"method\":\"getVolumeInformation\",\n" +
+                    " \"id\":33,\n" +
+                    " \"params\":[\n" +
+                    "  {\n" +
+                    "   \"output\":\"extOutput:zone?zone=1\"\n" +
+                    "  }\n" +
+                    " ],\n" +
+                    " \"version\":\"1.1\"\n" +
+                    "}";
+
 //            webSocket.send(getEqualizer);
-            webSocket.send(setEqualizer);
+            webSocket.send(getVolumeInformation);
 //            webSocket.send(getEqualizer);
             Log.e(LOG_TAG, requestObject.toString());
 //            webSocket.send("What's up ?");
@@ -132,15 +143,15 @@ public class MainActivity extends AppCompatActivity {
         public void onMessage(WebSocket webSocket, String text) {
             output("Receiving : " + text);
         }
+
         @Override
         public void onMessage(WebSocket webSocket, ByteString bytes) {
             output("Receiving bytes : " + bytes.hex());
         }
+
         public void onMessage(WebSocket webSocket, JSONObject result){
             output("Receiving Json: " + result.toString());
         }
-
-
 
         @Override
         public void onClosing(WebSocket webSocket, int code, String reason) {
@@ -153,11 +164,10 @@ public class MainActivity extends AppCompatActivity {
             output("Error : " + t.getMessage());
         }
 
-
     }
 
     private void start() {
-        Request request = new Request.Builder().url("ws://192.168.137.153:54480/sony/audio").build();
+        Request request = new Request.Builder().url("ws://192.168.137.124:54480/sony/audio").build();
         EchoWebSocketListener listener = new EchoWebSocketListener();
         WebSocket ws = client.newWebSocket(request, listener);
 

@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.waleed.audioandmore.DLNADevicesActivity">
 
-    <Button
-        android:id="@+id/btnDiscoverDLNA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Discover"
-        app:layout_constraintBottom_toBottomOf="@+id/reViewDevices"
-        tools:layout_editor_absoluteX="0dp" />
-    
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reViewDevices"
@@ -22,4 +13,25 @@
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
+
+
+    <Button
+        android:id="@+id/btnDiscoverDLNA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Discover"
+        app:layout_constraintBottom_toBottomOf="@+id/reViewDevices"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+    <Button
+        android:id="@+id/refreshBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Refresh"
+        app:layout_constraintBottom_toBottomOf="@+id/reViewDevices"
+        app:layout_constraintStart_toEndOf="@+id/btnDiscoverDLNA"
+        tools:layout_editor_absoluteX="0dp" />
+
 </android.support.constraint.ConstraintLayout>

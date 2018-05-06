@@ -29,7 +29,7 @@
                     android:layout_height="80dp"
                     android:layout_weight="1"
                     android:contentDescription="Device Picture"
-                    android:src="@drawable/speakerPicture"
+                    android:src="@drawable/speaker_picture"
                     />
 
                 <LinearLayout
