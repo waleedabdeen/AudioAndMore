@@ -10,10 +10,19 @@
         android:id="@+id/btnRecordActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
         android:text="Record Activity"
-        tools:layout_editor_absoluteX="126dp"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="16dp" />
 
+    <Button
+        android:id="@+id/btnDLNAActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="DLNA"
+        app:layout_constraintStart_toEndOf="@+id/btnRecordActivity"
+        tools:layout_editor_absoluteY="16dp" />
     <Button
         android:id="@+id/btnWebSocket"
         android:layout_width="wrap_content"

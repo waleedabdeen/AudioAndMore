@@ -20,22 +20,32 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnRecordActivity;
+    Button btnRecordActivity, btnDLNAActivity;
     private Button start;
     private TextView output;
     private OkHttpClient client;
     private static final String LOG_TAG = "Main";
+    public static String path;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        path = getExternalCacheDir().getAbsolutePath();
 
         btnRecordActivity = findViewById(R.id.btnRecordActivity);
-
+        btnDLNAActivity = findViewById(R.id.btnDLNAActivity);
         btnRecordActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent (MainActivity.this, RecordActivity.class);
+                startActivity(myIntent);
+            }
+        });
+        btnDLNAActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent (MainActivity.this, DLNADevicesActivity.class);
                 startActivity(myIntent);
             }
         });
@@ -73,13 +83,47 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(LOG_TAG,jsonException.toString());
             }
 
+            String getInfo = "{\n" +
+                    " \"method\":\"getPowerStatus\",\n" +
+                    " \"id\":50,\n" +
+                    " \"params\":[],\n" +
+                    " \"version\":\"1.1\"\n" +
+                    "}";
+            String getEqualizer  = "{\n" +
+                    " \"method\":\"getCustomEqualizerSettings\",\n" +
+                    " \"id\":11,\n" +
+                    " \"params\":[\n" +
+                    "  {\n" +
+                    "   \"target\":\"10000HzBandLevel\"\n" +
+                    "  }\n" +
+                    " ],\n" +
+                    " \"version\":\"1.0\"\n" +
+                    "}";
 
-//            webSocket.send("notifyPlayingContentInfo");
-            webSocket.send(requestObject.toString());
+            String setEqualizer = "{\n" +
+                    " \"method\":\"setCustomEqualizerSettings\",\n" +
+                    " \"id\":15,\n" +
+                    " \"params\":[\n" +
+                    "  {\n" +
+                    "   \"settings\":[\n" +
+                    "    {\n" +
+                    "     \"value\":\"10\",\n" +
+                    "     \"target\":\"10000HzBandLevel\"\n" +
+                    "    }\n" +
+                    "   ]\n" +
+                    "  }\n" +
+                    " ],\n" +
+                    " \"version\":\"1.0\"\n" +
+                    "}";
+//            webSocket.send(getEqualizer);
+            webSocket.send(setEqualizer);
+//            webSocket.send(getEqualizer);
             Log.e(LOG_TAG, requestObject.toString());
 //            webSocket.send("What's up ?");
 //            webSocket.send(ByteString.decodeHex("deadbeef"));
+
             webSocket.close(NORMAL_CLOSURE_STATUS, "Goodbye !");
+
 
 
         }
@@ -113,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void start() {
-        Request request = new Request.Builder().url("ws://192.168.137.153:54480/sony/system").build();
+        Request request = new Request.Builder().url("ws://192.168.137.153:54480/sony/audio").build();
         EchoWebSocketListener listener = new EchoWebSocketListener();
         WebSocket ws = client.newWebSocket(request, listener);
 

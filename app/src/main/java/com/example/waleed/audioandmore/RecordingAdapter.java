@@ -1,5 +1,6 @@
 package com.example.waleed.audioandmore;
 
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -31,12 +33,12 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        Button mButton;
+        ImageButton mButton;
         TextView mText;
         public ViewHolder(View v) {
             super(v);
-            mButton = v.findViewById(R.id.btnPlay);
-            mText = v.findViewById(R.id.txtName);
+            mButton = v.findViewById(R.id.playbutton);
+            mText = v.findViewById(R.id.Filename);
         }
     }
 
@@ -64,7 +66,7 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
         // - replace the contents of the view with that element
 
         holder.mText.setText(mDataset.get(position));
-        holder.mButton.setText("Play");
+        holder.mButton.setImageResource(android.R.drawable.ic_media_play);
 
         holder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,9 +74,9 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
                 isPlaying = !isPlaying;
                 onPlay(isPlaying , mPath + "/" + mDataset.get(position));
                 if (isPlaying) {
-                    holder.mButton.setText("Stop");
+                    holder.mButton.setImageResource(android.R.drawable.ic_media_pause);
                 } else {
-                    holder.mButton.setText("Play");
+                    holder.mButton.setImageResource(android.R.drawable.ic_media_play);
                 }
             }
         });
