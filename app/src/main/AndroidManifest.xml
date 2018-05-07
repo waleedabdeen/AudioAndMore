@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".RecordActivity" />
         <activity android:name=".DLNADevicesActivity" />
+        <activity android:name=".SongsActivity"></activity>
     </application>
 
 </manifest>
