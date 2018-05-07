@@ -6,4 +6,27 @@
     android:layout_height="match_parent"
     tools:context="com.example.waleed.audioandmore.FollowMeActivity">
 
+    <Button
+        android:id="@+id/btnScanBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scan"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="244dp" />
+
+    <Button
+        android:id="@+id/btnStopBT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="244dp" />
+
+    <TextView
+        android:id="@+id/txtFoundBluetoothDevices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Found Devices:\n"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="299dp" />
 </android.support.constraint.ConstraintLayout>
