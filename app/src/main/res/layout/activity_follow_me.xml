@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -22,15 +22,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="Follow me"
+                android:textSize="20sp"/>
 
             <Switch
                 android:id="@+id/switch1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Switch" />
+                android:gravity="center" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="When open the function Follow me, the music would always be with you when you switch to different rooms. But please keep your mobile with you and the bluetooth on."/>
+
     </LinearLayout>
 
     <Button
@@ -56,4 +68,5 @@
         android:text="Found Devices:\n"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="299dp" />
+    
 </android.support.constraint.ConstraintLayout>
