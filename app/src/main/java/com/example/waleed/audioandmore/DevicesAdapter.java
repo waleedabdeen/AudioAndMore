@@ -1,6 +1,7 @@
 package com.example.waleed.audioandmore;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +81,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
                     holder.btnMessageToDevice.setText("Stop recording");
                 } else {
                     holder.btnMessageToDevice.setText("Record");
+                    v.getContext().startActivity(new Intent(v.getContext(),RecordActivity.class));
                 }
             }
         });

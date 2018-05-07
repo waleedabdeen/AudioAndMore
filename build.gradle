@@ -17,6 +17,11 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+//        mavenLocal()
+        maven {
+            url "http://4thline.org/m2"
+        }
     }
 }
 

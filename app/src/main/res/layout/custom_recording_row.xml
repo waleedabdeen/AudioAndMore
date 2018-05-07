@@ -51,25 +51,11 @@
                     android:layout_weight="1" />
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/imageStatus"
                     android:background="@color/colorWhite"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/warning_yellow" />
-
-                <ImageButton
-                    android:background="@color/colorWhite"
-                    android:id="@+id/id1"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/correct_green" />
-
-                <ImageButton
-                    android:background="@color/colorWhite"
-                    android:id="@+id/id2"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/progress_green" />
 
                 <ImageButton
                     android:id="@+id/sendAgain"

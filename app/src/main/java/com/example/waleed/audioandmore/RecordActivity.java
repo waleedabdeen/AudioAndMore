@@ -99,22 +99,22 @@ public class RecordActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         //Define Recording Button
-        mRecordButton = findViewById(R.id.btnRecord);
-        mRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isRecording = !isRecording;
-                RecordingClass.onRecord(isRecording);
-                if (isRecording) {
-                    mRecordButton.setText("Stop recording");
-                } else {
-                    mRecordButton.setText("Record");
-                    getRecordedFilesList();
-                    updateRecordingFileName();
-                    mAdapter.notifyItemInserted(0);
-                }
-            }
-        });
+//        mRecordButton = findViewById(R.id.btnRecord);
+//        mRecordButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                isRecording = !isRecording;
+//                RecordingClass.onRecord(isRecording);
+//                if (isRecording) {
+//                    mRecordButton.setText("Stop recording");
+//                } else {
+//                    mRecordButton.setText("Record");
+//                    getRecordedFilesList();
+//                    updateRecordingFileName();
+//                    mAdapter.notifyItemInserted(0);
+//                }
+//            }
+//        });
 
     }
 

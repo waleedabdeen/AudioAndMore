@@ -6,22 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.waleed.audioandmore.RecordActivity">
 
-    <Button
-        android:id="@+id/btnRecord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Record"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reViewRecords"
         android:layout_width="match_parent"
-        android:layout_height="447dp"
+        android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
 </android.support.constraint.ConstraintLayout>
