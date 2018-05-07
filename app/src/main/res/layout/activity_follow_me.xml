@@ -8,6 +8,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -23,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Follow me"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <Switch
                 android:id="@+id/switch1"
@@ -36,37 +37,56 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:width="10dp"/>
+            android:width="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="When open the function Follow me, the music would always be with you when you switch to different rooms. But please keep your mobile with you and the bluetooth on."/>
+            android:text="When open the function Follow me, the music would always be with you when you switch to different rooms. But please keep your mobile with you and the bluetooth on." />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btnScanBT"
-        android:layout_width="wrap_content"
+        android:layout_width="121dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Scan"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="244dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnStopBT"
+        app:layout_constraintHorizontal_bias="0.172"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.52" />
 
     <Button
         android:id="@+id/btnStopBT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:text="Stop"
-        tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="244dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.52" />
 
     <TextView
         android:id="@+id/txtFoundBluetoothDevices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Found Devices:\n"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="299dp" />
-    
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnScanBT" />
+
 </android.support.constraint.ConstraintLayout>
