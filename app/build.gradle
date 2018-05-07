@@ -35,7 +35,7 @@ dependencies {
 //    implementation 'javax.annotation:javax.annotation-api:1.3.2'
     implementation 'org.fourthline.cling:cling-core:2.1.1'
     implementation 'org.seamless:seamless-util:1.1.1'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version:'8.1.12.v20130726'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version:'8.1.12.v20130726'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-client', version:'8.1.12.v20130726'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '8.1.12.v20130726'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '8.1.12.v20130726'
+    implementation group: 'org.eclipse.jetty', name: 'jetty-client', version: '8.1.12.v20130726'
 }
