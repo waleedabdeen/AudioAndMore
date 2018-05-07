@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class FollowMeActivity extends AppCompatActivity {
+
     Button btnScan, btnStop;
 
     Context context = this;
@@ -33,10 +34,14 @@ public class FollowMeActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_BLUETOOTH_ADMIN = 997;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 86;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow_me);
+
+        setTitle("Follow me");
 
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(mReceiver, filter);
