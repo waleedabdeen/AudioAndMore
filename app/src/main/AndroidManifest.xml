@@ -23,7 +23,8 @@
         </activity>
         <activity android:name=".RecordActivity" />
         <activity android:name=".DLNADevicesActivity" />
-        <activity android:name=".SongsActivity"></activity>
+        <activity android:name=".SongsActivity" />
+        <activity android:name=".DeviceActivity"></activity>
     </application>
 
 </manifest>
