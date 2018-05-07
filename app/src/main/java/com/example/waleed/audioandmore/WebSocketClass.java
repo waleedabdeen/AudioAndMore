@@ -24,6 +24,7 @@ public class WebSocketClass {
     OkHttpClient client;
     String hostURL = "ws://192.168.137.124:54480/sony/audio";
     int param1;
+    String param2;
     String requestType;
 
     public WebSocketClass(String hostURL, String requestType, int param1){
@@ -31,6 +32,14 @@ public class WebSocketClass {
         this.hostURL = hostURL;
         this.requestType = requestType;
         this.param1 = param1;
+    }
+
+    public WebSocketClass(String hostURL, String requestType, int param1, String param2){
+        client = new OkHttpClient();
+        this.hostURL = hostURL;
+        this.requestType = requestType;
+        this.param1 = param1;
+        this.param2 = param2;
     }
 
 
@@ -114,12 +123,44 @@ public class WebSocketClass {
                     " \"version\":\"1.1\"\n" +
                     "}";
 
+            String getCustomEqualizerSettings = "{\n" +
+                    " \"method\":\"getCustomEqualizerSettings\",\n" +
+                    " \"id\":11,\n" +
+                    " \"params\":[\n" +
+                    "  {\n" +
+                    "   \"target\":\"\"\n" +
+                    "  }\n" +
+                    " ],\n" +
+                    " \"version\":\"1.0\"\n" +
+                    "}";
+
+            String setCustomEqualizerSettings = "{\n" +
+                    " \"method\":\"setCustomEqualizerSettings\",\n" +
+                    " \"id\":15,\n" +
+                    " \"params\":[\n" +
+                    "  {\n" +
+                    "   \"settings\":[\n" +
+                    "    {\n" +
+                    "     \"value\":\" " + param1 + " \",\n" +
+                    "     \"target\":\" " + param2 + " \"\n" +
+                    "    }\n" +
+                    "   ]\n" +
+                    "  }\n" +
+                    " ],\n" +
+                    " \"version\":\"1.0\"\n" +
+                    "}";
             switch (requestType){
                 case "getVolume":
                     webSocket.send(getVolumeInformation);
                     break;
                 case "setVolume":
                     webSocket.send(setAudioVolume);
+                    break;
+                case "getEqualizer":
+                    webSocket.send(getCustomEqualizerSettings);
+                    break;
+                case "setEqualizer":
+                    webSocket.send(setCustomEqualizerSettings);
                     break;
             }
 //            webSocket.send(getEqualizer);

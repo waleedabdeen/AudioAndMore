@@ -22,6 +22,7 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
     //Main attributes
     private ArrayList<String> mDataset;
     private String mPath;
+    private String mStatus;
 
     //Internally used variables
     private boolean isPlaying = false;
@@ -35,10 +36,12 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
         // each data item is just a string in this case
         ImageButton mButton;
         TextView mText;
+        ImageButton imageStatus;
         public ViewHolder(View v) {
             super(v);
             mButton = v.findViewById(R.id.playbutton);
             mText = v.findViewById(R.id.Filename);
+            imageStatus = v.findViewById(R.id.imageStatus);
         }
     }
 
@@ -46,6 +49,7 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
     public RecordingAdapter(String myPath, ArrayList<String> myDataset) {
         mDataset = myDataset;
         mPath = myPath;
+        mStatus = "success";
 //        setHasStableIds(true);
     }
 
@@ -67,7 +71,6 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
 
         holder.mText.setText(mDataset.get(position));
         holder.mButton.setImageResource(android.R.drawable.ic_media_play);
-
         holder.mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +83,23 @@ public class RecordingAdapter extends RecyclerView.Adapter<RecordingAdapter.View
                 }
             }
         });
+
+        switch (mStatus){
+            case "success":
+                holder.imageStatus.setImageResource(R.drawable.correct_green);
+                break;
+            case "failed":
+                holder.imageStatus.setImageResource(R.drawable.warning_yellow);
+                break;
+            case "in_progress":
+                holder.imageStatus.setImageResource(R.drawable.progress_green);
+                break;
+                default:
+                    holder.imageStatus.setImageResource(R.drawable.warning_yellow);
+                    break;
+
+        }
+
 
     }
 

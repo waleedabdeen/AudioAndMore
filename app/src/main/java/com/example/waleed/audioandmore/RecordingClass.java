@@ -1,5 +1,6 @@
 package com.example.waleed.audioandmore;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.util.Log;
@@ -57,16 +58,19 @@ public class RecordingClass {
 
 
     public static void startRecording() {
+        updateRecordingFileName();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mRecorder.setOutputFile(mFileName);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
+        Log.e(LOG_TAG, "FileName: " +mFileName);
         try {
             mRecorder.prepare();
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
+            Log.e(LOG_TAG,e.toString());
         }
 
         mRecorder.start();
@@ -86,7 +90,7 @@ public class RecordingClass {
         File directory = new File(path);
         File[] files = directory.listFiles();
         Log.d("Files", "Size: "+ files.length);
-        recordedFilesList.clear();
+        recordedFilesList = new ArrayList<>();
         for (int i = 0; i < files.length; i++)
         {
             recordedFilesList.add(0 ,files[i].getName());
